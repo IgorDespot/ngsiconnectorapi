@@ -1,0 +1,19 @@
+{
+  "name": "ngsiconnectorapi",
+  "version": "1.0.0",
+  "description": "Ngsi Connector Api is rest interface specialized in creation and managment of entitis from pilots sites of waste4think project.",
+  "main": "server/service.js",
+  "scripts": {
+    "start": "nodemon ./bin/run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Igor Despot",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "bunyan": "^1.8.12",
+    "nodemon": "^1.18.7"
+  }
+}

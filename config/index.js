@@ -10,6 +10,15 @@ var log = {
 };
 
 module.exports = {
+    fiware: {
+        orion_url: "http://localhost:1026" 
+    },
+    ngsiconnectorapi: {
+        ngsi_port: 3000,
+        ngsi_protocol: "https",
+        ngsi_allowed_files: [".csv",".json"],
+        ngsi_mandatory_headers: ["fiware-service","fiware-servicepath","x-auth-token"]
+    },
     log: function(env) {
         if (env)
             return log[env]();

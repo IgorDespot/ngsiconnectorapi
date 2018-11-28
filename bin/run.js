@@ -8,7 +8,7 @@ var log = config.log();
 
 var server = http.createServer(service);
 
-server.listen(3000);
+server.listen(config.ngsiconnectorapi.ngsi_port || 3000);
 
 server.on("listening", function() {
     log.info(`NgsiConnectorAPI is listening on ${server.address().port} in ${service.get('env')} mode.`)

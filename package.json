@@ -5,15 +5,22 @@
   "main": "server/service.js",
   "scripts": {
     "start": "nodemon ./bin/run",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha --recursive test"
   },
   "author": "Igor Despot",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "superagent": "^4.0.0"
   },
   "devDependencies": {
     "bunyan": "^1.8.12",
-    "nodemon": "^1.18.7"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.7",
+    "nyc": "^13.1.0",
+    "should": "^13.2.3",
+    "supertest": "^3.3.0"
   }
 }

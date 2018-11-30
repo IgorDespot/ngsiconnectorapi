@@ -12,7 +12,8 @@ module.exports = function() {
         const contextObject = {
             fiwareService: req.headers["fiware-service"],
             fiwareServicePath: req.headers["fiware-service-path"],
-            authToken: req.headers["x-auth-token"]
+            authToken: req.headers["x-auth-token"],
+            entitiesAmount: req.query.amount
         };
         
         let entityClient = new EntityClient();

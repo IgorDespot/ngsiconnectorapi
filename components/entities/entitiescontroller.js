@@ -11,7 +11,7 @@ function retriveAllEntities(contextObject) {
             "Fiware-ServicePath": contextObject.fiwareServicePath,
             "X-Auth-Token": contextObject.xAuth
         },
-        uri: `${config.fiware.orion_url}/v2/entities`,
+        uri: `${config.fiware.orion_url}/v2/entities?limit=${contextObject.entitiesAmount || 20 }`,
         json: true
     });
 };

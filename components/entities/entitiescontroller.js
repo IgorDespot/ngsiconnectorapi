@@ -9,7 +9,7 @@ function retriveAllEntities(contextObject) {
         headers: {
             "Fiware-Service": contextObject.fiwareService,
             "Fiware-ServicePath": contextObject.fiwareServicePath,
-            "X-Auth-Token": contextObject.xAuth
+            "X-Auth-Token": contextObject.authToken
         },
         uri: `${config.fiware.orion_url}/v2/entities?limit=${contextObject.entitiesAmount || 20 }`,
         json: true

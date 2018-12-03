@@ -31,4 +31,44 @@ describe("The entities component", function() {
             .expect(404, done)
         });
     });
+    describe("GET /v2/entities", function() {
+        it("should return HTTP 401 when invalid token is provided", (done) => {
+            request(service)
+            .get("/v2/entities/Room1")
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "fail")
+            .expect(401, done);
+        });
+    });
+    describe("GET /v2/entities/:entityId", function() {
+        it("should return HTTP 401 when invalid token is provided", (done) => {
+            request(service)
+            .get("/v2/entities/Room1")
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "fail")
+            .expect(401, done);
+        });
+    });
+    describe("GET /v2/entities/:entityId", function() {
+        it("should return HTTP 200 when all preconditions are met", (done) => {
+            request(service)
+            .get("/v2/entities/Room1")
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "test")
+            .expect(200, done);
+        });
+    });
+    describe("GET /v2/entities/:entityId", function() {
+        it("should return HTTP 200 when all preconditions are met", (done) => {
+            request(service)
+            .get("/v2/entities/badId")
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "test")
+            .expect(404, done);
+        });
+    });
 });

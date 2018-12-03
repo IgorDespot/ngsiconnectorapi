@@ -1,4 +1,5 @@
 var bunyan = require("bunyan");
+require('dotenv').config();
 
 var log = {
     development: function() {

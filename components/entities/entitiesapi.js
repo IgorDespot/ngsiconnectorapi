@@ -40,9 +40,13 @@ module.exports = function() {
 
         entityClient.getSingleEntity(contextObject)
             .then((response) => {
+                if (response.length === 0)
+                    return res.status(404).json(`The entity with id ${contextObject.entityId} referd in the request has not been found`);
                 res.json(response);
             })
             .catch((error) => {
+                if (error.statusCode === 401)
+                    return res.status(401).json("Unauthorized access");
                 res.json(error);
             });
     });

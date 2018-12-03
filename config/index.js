@@ -11,7 +11,7 @@ var log = {
 
 module.exports = {
     fiware: {
-        orion_url: "http://localhost:1026" 
+        orion_url: "http://localhost:82" 
     },
     ngsiconnectorapi: {
         ngsi_port: 3000,

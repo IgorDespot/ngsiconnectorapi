@@ -27,5 +27,25 @@ module.exports = function() {
             });
     });
 
+    router.get("/v2/entities/:entityId", mandatoryHeadersCheck, function(req, res) {
+
+        const contextObject = {
+            fiwareService: req.headers["fiware-service"],
+            fiwareServicePath: req.headers["fiware-service-path"],
+            authToken: req.headers["x-auth-token"],
+            entityId: req.params.entityId
+        };
+
+        let entityClient = new EntityClient();
+
+        entityClient.getSingleEntity(contextObject)
+            .then((response) => {
+                res.json(response);
+            })
+            .catch((error) => {
+                res.json(error);
+            });
+    });
+
     return router;
 };

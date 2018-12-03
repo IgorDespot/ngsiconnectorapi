@@ -16,8 +16,20 @@ function retriveAllEntities(contextObject) {
     });
 };
 
-
+function retriveSingleEntity(contextObject) {
+    return request({
+        method: "GET",
+        headers: {
+            "Fiware-Service": contextObject.fiwareService,
+            "Fiware-ServicePath": contextObject.fiwareServicePath,
+            "X-Auth-Token": contextObject.authToken
+        },
+        uri: `${config.fiware.orion_url}/v2/entities?id=${contextObject.entityId}`,
+        json: true
+    });
+};
 
 module.exports = {
     retriveAllEntities,
+    retriveSingleEntity
 }

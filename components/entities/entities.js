@@ -1,6 +1,9 @@
 
 
-const { retriveAllEntities } = require("./entitiescontroller");
+const { 
+    retriveAllEntities,
+    retriveSingleEntity
+ } = require("./entitiescontroller");
 
 class EntityClient {
 
@@ -10,7 +13,11 @@ class EntityClient {
 
     getAllEntities(contextObject) {
         return retriveAllEntities(contextObject);
-    }
+    };
+
+    getSingleEntity(contextObject) {
+        return retriveSingleEntity(contextObject);
+    };
     
 };
 

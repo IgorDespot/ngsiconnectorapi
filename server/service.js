@@ -3,10 +3,11 @@
 var service = require("express")();
 
 var { entitiesApi } = require("../components/entities");
+var { tokenApi } = require("../components/token");
 
 module.exports = function() {
 
-    service.use("/", entitiesApi);
+    service.use("/", entitiesApi,tokenApi);
 
     service.use((req, res, next) => {
         const error = new Error("Requested route not found");

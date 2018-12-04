@@ -23,6 +23,8 @@ module.exports = function() {
                 res.json(response);
             })
             .catch((error) => {
+                if (error.statusCode === 401)
+                    return res.status(401).json("Unauthorized access");
                 res.json(error);
             });
     });

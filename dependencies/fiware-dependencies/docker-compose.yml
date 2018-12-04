@@ -3,7 +3,6 @@ services:
   fiware-pep-proxy: 
     image: waste4think/pep_proxy:release-6.2
     container_name: pep
-    network_mode: bridge
     volumes:
       - ./config.js:/opt/fiware-pep-proxy/config.js
     ports:
@@ -11,27 +10,23 @@ services:
   fiware-orion: 
     image: fiware/orion
     container_name: orion
-    network_mode: bridge
+    links:
+     - mongo-db
+    command: -dbhost mongo-db
     ports:
       - "1026:1026"
   mongo-db: 
     image: mongo:3.4
     container_name: mongo
-    network_mode: bridge
     command: --nojournal
   fiware-idm:
-    image: waste4think/fiware-idm:latest
+    image: waste4think/fiware-idm
     container_name: idm
-    network_mode: bridge
     ports:
       - "8000:8000"
       - "5000:5000"
   authzforce: 
     image: waste4think/authzforce:release-8.0.1
     container_name: authzforce
-    network_mode: bridge
     ports:
       - "8080:8080"
-networks:
-    bridge:
-        driver: bridge

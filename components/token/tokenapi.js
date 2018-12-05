@@ -19,11 +19,11 @@ module.exports = function() {
 
         tokenClient.getAccessToken(contextObject)
             .then((response) => {
-                if (response.statusCode === 401)
-                    return res.status(401).json("The request you have made requires authentication, check username/password");
                 res.json(response);
             })
             .catch((error) => {
+                if (error.statusCode === 401)
+                    return res.status(401).json("The request you have made requires authentication, check username/password");
                 res.json(error);
             });
     });

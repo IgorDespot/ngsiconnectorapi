@@ -1,6 +1,5 @@
 "use strict";
 
-const should = require("should");
 const request = require("supertest");
 const service = require("../../../server/service")();
 
@@ -20,7 +19,7 @@ describe("The entities component", function() {
             .get("/v2/entities")
             .set("Fiware-Service", "waste4think")
             .set("Fiware-ServicePath", "/eng/develop")
-            .set("X-Auth-Token", "123456")
+            .set("X-Auth-Token", "test")
             .expect(200, done);
         });
     });

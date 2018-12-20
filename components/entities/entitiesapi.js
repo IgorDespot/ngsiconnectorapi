@@ -3,7 +3,9 @@
 const router = require("express").Router();
 
 const EntityClient = require("./entities");
-const { mandatoryHeadersCheck } = require("../middlewares");
+const { mandatoryHeadersCheck, uploaderMiddleware } = require("../middlewares");
+
+const config = require("../../config");
 
 module.exports = function() {
 
@@ -51,6 +53,32 @@ module.exports = function() {
                     return res.status(401).json("Unauthorized access");
                 res.json(error);
             });
+    });
+
+    router.post("/v2/entities", mandatoryHeadersCheck, uploaderMiddleware, function(req, res) {
+        if (!req.files[0])
+            return res.status(404).json("The resource (file) not found");
+        if (!config.ngsiconnectorapi.ngsi_allowed_files.includes(`.${req.files[0].originalname.split(".")[1]}`))
+            return res.status(403).json(`The file with extention:.${req.files[0].originalname.split(".")[1]} is not supported.`)
+        
+        const contextObject = {
+            data: req.files[0].buffer.toString(),
+            ext: `.${req.files[0].originalname.split(".")[1]}`,
+            mode: "strict",
+            fiwareService: req.headers["fiware-service"],
+            fiwareServicePath: req.headers["fiware-service-path"],
+            authToken: req.headers["x-auth-token"]
+        };
+
+        let entityClient = new EntityClient();
+
+        entityClient.createEntities(contextObject)
+            .then((response) => {
+                res.json(response)
+            })
+            .catch((error) => {
+                res.status(error.code).json(error.msg);
+            }); 
     });
 
     return router;

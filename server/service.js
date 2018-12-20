@@ -4,8 +4,16 @@ var service = require("express")();
 
 var { entitiesApi } = require("../components/entities");
 var { tokenApi } = require("../components/token");
+var multer = require("multer");
 
 module.exports = function() {
+
+    service.use(multer({
+        storage: multer.memoryStoragem,
+        limits: {
+            fileSize: 5 * 1024 * 1024,
+        }
+    }).any());
 
     service.use("/", entitiesApi,tokenApi);
 

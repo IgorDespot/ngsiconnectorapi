@@ -2,13 +2,14 @@
 
 const { 
     retriveAllEntities,
-    retriveSingleEntity
+    retriveSingleEntity,
+    createEntitiesBatch
  } = require("./entitiescontroller");
 
 class EntityClient {
 
     constructor(){
-
+        
     }
 
     getAllEntities(contextObject) {
@@ -17,6 +18,10 @@ class EntityClient {
 
     getSingleEntity(contextObject) {
         return retriveSingleEntity(contextObject);
+    };
+
+    createEntities(contextObject) {
+        return createEntitiesBatch(contextObject);
     };
     
 };

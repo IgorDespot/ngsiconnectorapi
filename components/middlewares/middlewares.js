@@ -1,7 +1,6 @@
 "use strict";
 
 const config = require("../../config");
-const multer = require("multer");
 
 function mandatoryHeadersCheck(req, res, next) {
 
@@ -22,14 +21,6 @@ function mandatoryHeadersCheck(req, res, next) {
     next();
 };
 
-const uploaderMiddleware = multer({
-    storage: multer.memoryStoragem,
-    limits: {
-        fileSize: 5 * 1024 * 1024,
-    }
-}).any();
-
 module.exports = {
-    mandatoryHeadersCheck,
-    uploaderMiddleware
+    mandatoryHeadersCheck
 }

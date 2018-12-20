@@ -1,1 +1,1 @@
-module.exports = { mandatoryHeadersCheck, uploaderMiddleware } = require("./middlewares");
+module.exports = { mandatoryHeadersCheck } = require("./middlewares");

@@ -3,7 +3,7 @@
 const router = require("express").Router();
 
 const EntityClient = require("./entities");
-const { mandatoryHeadersCheck, uploaderMiddleware } = require("../middlewares");
+const { mandatoryHeadersCheck } = require("../middlewares");
 
 const config = require("../../config");
 
@@ -55,7 +55,7 @@ module.exports = function() {
             });
     });
 
-    router.post("/v2/entities", mandatoryHeadersCheck, uploaderMiddleware, function(req, res) {
+    router.post("/v2/entities", mandatoryHeadersCheck, function(req, res) {
         if (!req.files[0])
             return res.status(404).json("The resource (file) not found");
         if (!config.ngsiconnectorapi.ngsi_allowed_files.includes(`.${req.files[0].originalname.split(".")[1]}`))

@@ -22,8 +22,8 @@ config.app_port = 1026;
 config.app_ssl = false;
 
 // Credentials obtained when registering PEP Proxy in Account Portal
-config.username = 'pep_proxy_0cd8e9081c1a4ca8b0bd7fded0d0b189';
-config.password = 'b9386cab8fdf400ca3b2b9aac71523b3';
+config.username = 'pep_proxy_30ad8b5dccf74b1181b2daa181952a41';
+config.password = 'd7208bf40e51469cb4aaf6c3f23cdd2d';
 
 // in seconds
 config.cache_time = 300;

@@ -12,13 +12,14 @@ var log = {
 
 module.exports = {
     fiware: {
-        orion_url: "http://192.168.192.134:82" 
+        orion_url: "http://192.168.192.147:82" 
     },
     ngsiconnectorapi: {
         ngsi_port: 3000,
         ngsi_protocol: "https",
         ngsi_allowed_files: [".csv",".json"],
-        ngsi_mandatory_headers: ["fiware-service","fiware-servicepath","x-auth-token"]
+        ngsi_mandatory_headers: ["fiware-service","fiware-servicepath","x-auth-token"],
+        ngsi_chunk_size: 1
     },
     log: function(env) {
         if (env)

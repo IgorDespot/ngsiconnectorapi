@@ -11,19 +11,19 @@ config.https = {
     port: 443
 };
 
-config.account_host = 'http://192.168.192.134:8000';
+config.account_host = 'http://192.168.192.147:8000';
 
-config.keystone_host = '192.168.192.134';
+config.keystone_host = '192.168.192.147';
 config.keystone_port = 5000;
 
-config.app_host = '192.168.192.134';
+config.app_host = '192.168.192.147';
 config.app_port = 1026;
 // Use true if the app server listens in https
 config.app_ssl = false;
 
 // Credentials obtained when registering PEP Proxy in Account Portal
-config.username = 'pep_proxy_30ad8b5dccf74b1181b2daa181952a41';
-config.password = 'd7208bf40e51469cb4aaf6c3f23cdd2d';
+config.username = 'pep_proxy_1e721678a2804616b5084f46b3e36038';
+config.password = '2194dd07afbc46acb12c119c987dd0d3';
 
 // in seconds
 config.cache_time = 300;
@@ -36,7 +36,7 @@ config.cache_time = 300;
 config.azf = {
 	enabled: true,
 	protocol: 'http',
-    host: '192.168.192.134',
+    host: '192.168.192.147',
     port: 8080,
     custom_policy: undefined // use undefined to default policy checks (HTTP verb + path).
 };

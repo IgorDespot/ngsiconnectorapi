@@ -81,5 +81,32 @@ module.exports = function() {
             }); 
     });
 
+    router.post("/v2/entities/update", mandatoryHeadersCheck, function(req, res) {
+        if (!req.files[0])
+            return res.status(404).json("The resource (file) not found");
+        if (!config.ngsiconnectorapi.ngsi_allowed_files.includes(`.${req.files[0].originalname.split(".")[1]}`))
+            return res.status(403).json(`The file with extention:.${req.files[0].originalname.split(".")[1]} is not supported.`)
+        
+        const contextObject = {
+            data: req.files[0].buffer.toString(),
+            ext: `.${req.files[0].originalname.split(".")[1]}`,
+            mode: "update",
+            fiwareService: req.headers["fiware-service"],
+            fiwareServicePath: req.headers["fiware-service-path"],
+            authToken: req.headers["x-auth-token"]
+        };
+
+        let entityClient = new EntityClient();
+
+        entityClient.updateEntities(contextObject)
+            .then((response) => {
+                res.json(response)
+            })
+            .catch((error) => {
+                console.log(error)
+                res.status(error.code).json(error.msg);
+            }); 
+    });
+
     return router;
 };

@@ -1,8 +1,10 @@
 "use strict";
 
+const errors = require("../error");
+
 function singleValueCheck(args) {
     if(!args[1]) {
-        throw `Property failed check, no entity id/type value was found`
+        errors.rulesErrorHandle(args[0]);
     }
     return args[1];
 };
@@ -25,16 +27,7 @@ function textValueCheck(args) {
 
 function textValueCheckMandatory(args) {
     if (!args[1]) {
-        if (args[0].includes("%")) {
-            throw {
-                msg: `Property ${args[0].substring} failed check, no value was provided.`,
-                property: `${args[0].substring}`
-            }
-        }
-        throw {
-            msg: `Property ${args[0]} failed check, no value was provided.`,
-            property: `${args[0]}`
-        }
+        errors.rulesErrorHandle(args[0]);
     }
         
     if (args[0].includes("%")) {

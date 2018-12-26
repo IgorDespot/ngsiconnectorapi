@@ -6,7 +6,7 @@ const entityrule = require("../../rules");
 async function parseRawData(contextObject, mode) {
 
     var data = await parseDataOnExt(contextObject);
-    var rule = await getrule(data[0].type);
+    var rule = await getrule(data[0].type);    
     var result = await processData(data, rule, mode);
 
     return result;
@@ -50,7 +50,7 @@ async function processData(data, rule, mode = "strict") {
         try {
             res.push(await proccessSingleEntity(rule, entity, mode));
         } catch (error) {
-            err.push(error);
+            err.push(`Property ${error.property} failed check in: ${entity.id || 'unknown'}, ${error.reason}.`);
         }
     
     return {err,res};
@@ -62,9 +62,14 @@ async function proccessSingleEntity(rule, entity, mode) {
     var newEntity = {};
 
     for (let i = 0; i < ruleProp.length; i++) {
-        newEntity[ruleProp[i]] = await processEntityProperty(ruleProp[i], entityProp[i], entity, rule);  
+        let result = await processEntityProperty(ruleProp[i], entityProp[i], entity, rule, mode);
+        if (mode === "update") {
+            if (result)
+                newEntity[ruleProp[i]] = result;
+        } else {
+            newEntity[ruleProp[i]] = result;
+        }   
     }
-
     return newEntity;
 };
 
@@ -87,7 +92,7 @@ async function proccessDataHeaders(data, rule, mode) {
     });
 
     if (mode === "strict") {
-            var missingProp = [];
+            let missingProp = [];
             for (let key of ruleProp) { 
                 if (!entityProp.includes(key)) {
                     missingProp.push(key);
@@ -99,14 +104,35 @@ async function proccessDataHeaders(data, rule, mode) {
                     info: `Missing properties are ${missingProp}, mandatory properties expected in file: ${ruleProp}`
                 } };
             }
+    } else {
+        let missingProp = [];
+        if (!entityProp.includes("id")) 
+            throw {
+                code: 500, msg: {
+                    error: "Mising mandatory id property",
+                    info: "System was not able to procede with the update because failed to find mandatory id property."
+                }}
+
+        for (let key of entityProp) {
+            if (!ruleProp.includes(key)) {
+                missingProp.push(key)
+            };
+        }
+        if (missingProp.length !== 0)
+            throw { code: 409, msg: {
+                error: `Entities header do not match rule header defined by data model.`,
+                info: `Found property: ${missingProp} that is not part of defined model`
+            }};
     }
-       
-            
-        
+    
     return data;
 };
 
-async function processEntityProperty(prop, entProp, entity, rule) {
+async function processEntityProperty(prop, entProp, entity, rule, mode) {
+    if (mode === "update") {
+        if (!entProp)
+            return;
+    }
     return rule[prop]([entProp,entity[entProp]]);
 };
 

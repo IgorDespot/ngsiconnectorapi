@@ -2,6 +2,7 @@
 
 var request = require("request-promise");
 var config = require("../../config");
+const errors = require("../error");
 
 var { 
     parseRawData
@@ -33,7 +34,7 @@ function retriveSingleEntity(contextObject) {
     });
 };
 
-function postEntitiesInBatch(contextObject, data) {
+function postEntitiesInBatchCreate(contextObject, data) {
     return request({
         method: "POST",
         headers: {
@@ -50,18 +51,35 @@ function postEntitiesInBatch(contextObject, data) {
     });
 };
 
-async function createEntitiesBatch(contextObject, mode) {
+function postEntitiesInBatchUpdate(contextObject, data) {
+    return request({
+        method: "POST",
+        headers: {
+            "Fiware-Service": contextObject.fiwareService,
+            "Fiware-ServicePath": contextObject.fiwareServicePath,
+            "X-Auth-Token": contextObject.authToken
+        },
+        uri: `${config.fiware.orion_url}/v2/op/update`,
+        body: {
+            actionType: "UPDATE",
+            entities: data
+        },
+        json: true
+    });
+};
+
+async function createEntitiesBatch(contextObject) {
 
     try {
 
-        var parsedData = await parseRawData(contextObject, mode);
+        var parsedData = await parseRawData(contextObject);
         
-        var parsedDataForCreation = chunk(parsedData.res, 1);
+        var parsedDataForCreation = chunk(parsedData.res, config.ngsiconnectorapi.ngsi_chunk_size);
             
         var final = [];
 
         for (let single of parsedDataForCreation) {
-            final.push(postEntitiesInBatch(contextObject, single));
+            final.push(postEntitiesInBatchCreate(contextObject, single));
         }
 
         let orionErrorCheck = await Promise.all(final);
@@ -74,6 +92,32 @@ async function createEntitiesBatch(contextObject, mode) {
                 error: error.name,
                 info: error.error.description
             }}
+        }
+        throw error;
+    }
+};
+
+async function updateEntitiesBatch(contextObject) {
+
+    try {
+
+        var parsedData = await parseRawData(contextObject, contextObject.mode);
+        
+        var parsedDataForCreation = chunk(parsedData.res, 1);
+            
+        var final = [];
+
+        for (let single of parsedDataForCreation) {
+            final.push(postEntitiesInBatchUpdate(contextObject, single));
+        }
+
+        let orionErrorCheck = await Promise.all(final);
+
+        return parsedData;
+
+    } catch (error) {
+        if (error.statusCode) {
+            errors.fiwareOrionErrorHandle(error);
         }
         throw error;
     }
@@ -92,5 +136,6 @@ function chunk(array, size) {
 module.exports = {
     retriveAllEntities,
     retriveSingleEntity,
-    createEntitiesBatch
+    createEntitiesBatch,
+    updateEntitiesBatch
 }

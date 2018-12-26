@@ -3,7 +3,8 @@
 const { 
     retriveAllEntities,
     retriveSingleEntity,
-    createEntitiesBatch
+    createEntitiesBatch,
+    updateEntitiesBatch
  } = require("./entitiescontroller");
 
 class EntityClient {
@@ -22,6 +23,10 @@ class EntityClient {
 
     createEntities(contextObject) {
         return createEntitiesBatch(contextObject);
+    };
+
+    updateEntities(contextObject) {
+        return updateEntitiesBatch(contextObject);
     };
     
 };

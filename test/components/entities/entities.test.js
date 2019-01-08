@@ -107,4 +107,40 @@ describe("The entities component", function() {
             .expect(404, done);
         });
     });
+    describe("POST /v2/entities/update", function() {
+        it("should return HTTP 500 when id property is not provided", (done) => {
+            request(service)
+            .post("/v2/entities/update")
+            .field("userFile", fs.readFileSync(__dirname + '/update_fail.csv', 'utf-8'))
+            .attach('files', __dirname + '/update_fail.csv', 'update_fail.csv')
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "test")
+            .expect(500, done);
+        });
+    });
+    describe("POST /v2/entities/update", function() {
+        it("should return HTTP 200 when all conditions are met", (done) => {
+            request(service)
+            .post("/v2/entities/update")
+            .field("userFile", fs.readFileSync(__dirname + '/update_working.csv', 'utf-8'))
+            .attach('files', __dirname + '/update_working.csv', 'update_working.csv')
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "test")
+            .expect(200, done);
+        });
+    });
+    describe("POST /v2/entities/update", function() {
+        it("should return HTTP 200 when all conditions are met", (done) => {
+            request(service)
+            .post("/v2/entities/update")
+            .field("userFile", fs.readFileSync(__dirname + '/update_fail_no_id_val.csv', 'utf-8'))
+            .attach('files', __dirname + '/update_fail_no_id_val.csv', 'update_fail_no_id_val.csv')
+            .set("Fiware-Service", "test")
+            .set("Fiware-ServicePath", "/test/test")
+            .set("X-Auth-Token", "test")
+            .expect(200, done);
+        });
+    });
 });

@@ -7,22 +7,26 @@ function attributeCheckerErrorHandle (error) {
 };
 
 function rulesErrorHandle (property, type) {
+    let checkedProp = property;
+    if (property.includes("%")) {
+        checkedProp = property.substring(0, property.indexOf("%"));
+    }
     if (!type) {
         if (property === "id" || property === "type") {
             throw {
-                reason: `${property} must have value associated with it.`,
-                property: `${property}`
-            }
-        }
-        if (property.includes("%")) {
-            throw {
-                reason: `${property} must have value associated with it.`,
-                property: `${property.substring}`
+                reason: `${checkedProp} must have value associated with it.`,
+                property: `${checkedProp}`
             }
         }
         throw {
-            reason: `${property} must have value associated with it.`,
-            property: `${property}`
+            reason: `${checkedProp} must have value associated with it.`,
+            property: `${checkedProp}`
+        }
+    }
+    if (type === "nan") {
+        throw {
+            reason: `${checkedProp} value is not valid number.`,
+            property: `${checkedProp}`
         }
     }
 };

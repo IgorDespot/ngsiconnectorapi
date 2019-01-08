@@ -14,7 +14,7 @@ async function parseRawData(contextObject, mode) {
 
 async function parseDataOnExt(contextObject) {
     if (contextObject.ext === ".csv") {
-        var data = csvparser({ delimiter: ";", checkType: true }).fromString(contextObject.data)
+        var data = csvparser({ delimiter: ";" }).fromString(contextObject.data)
                     .then((result) => { return result })
                     .catch((error) => { throw error });
         return data;

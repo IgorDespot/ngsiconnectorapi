@@ -1,6 +1,9 @@
-"use strict";
-const { singleValueCheck, textValueCheck, textValueCheckMandatory } = require("./rulescontroller");
-
-module.exports = {
-    singleValueCheck, textValueCheck, textValueCheckMandatory
-};
+module.exports =  { 
+    singleValueCheck, 
+    textValueCheck, 
+    textValueCheckMandatory, 
+    numberCheck, 
+    numberCheckMandatory,
+    listCheck,
+    listCheckMandatory
+  } = require("./rulescontroller");
